@@ -1,0 +1,15 @@
+@(bId:Long)
+
+@import helper._
+
+<form id="photosForm" >
+		Logo:<input name="l" type="file" /> <br />
+		Picture1:<input name="p1" type="file" /> <br />
+        Picture2:<input name="p2" type="file" /> <br />
+        Picture3:<input name="p3" type="file" /><br />
+        
+            <br/>
+            <a href="#/uploadPhotos/@bId" class="btn btn-primary btn-sm">Upload</a> 
+            <a href="#business/show/@bId" class="btn btn-default btn-sm">Cancel</a> 
+        </div>
+    </form>

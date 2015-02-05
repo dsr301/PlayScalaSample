@@ -1,0 +1,30 @@
+@(
+post:(models.Post,models.PlatformUser,Seq[models.FullComment]),
+pagination:(Option[models.Post],Option[models.Post]),
+commentForm: Form[Comment]
+)(implicit flash: Flash)
+
+
+<ul id="pagination">
+    @pagination._1.map { post =>
+    <li id="previous">
+        <a href="@routes.Posts.show(post.id.get)">
+            @post.content
+        </a>
+    </li>
+    }
+    @pagination._2.map { post =>
+    <li id="next">
+        <a href="@routes.Posts.show(post.id.get)">
+            @post.content
+        </a>
+    </li>
+    }
+</ul>
+
+@flash.get("success").map { message =>
+    <div class="success">@message</div>
+}
+
+@display(post, mode = "full",commentForm)
+

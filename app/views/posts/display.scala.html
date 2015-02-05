@@ -1,0 +1,74 @@
+@(post:(models.Post,models.PlatformUser,Seq[models.FullComment]), mode: String = "full",commentForm: Form[Comment])
+ 
+@commentsTitle = {
+    @if(post._3) {
+        @post._3.size comments, latest by 
+    } else {
+        no comments
+    }
+}
+  
+<div class="post @mode">
+	<h2 class="post-title">
+
+	    </a>
+	</h2>    
+	@if(mode != "teaser") {
+        <div>
+            @Html(post._1.content.replace("\n", "<br>"))
+        </div>
+    }
+    <div>
+        <span >by @post._2.fullName</span>,
+        <span class="post-date">
+            @post._1.postedAt.format("dd MMM yy")
+        </span>
+        @if(mode != "full") {
+            <span class="post-comments">
+                @commentsTitle
+            </span>
+        }
+
+    </div>
+    
+
+</div>
+ 
+@if(mode == "full") {
+    
+    <div class="comments">
+        <h3>
+            @commentsTitle
+        </h3>
+        
+        @post._3.map { comment =>
+            <div class="comment">
+                <div class="comment-metadata">
+                    <span class="comment-author">by 
+                     @comment.user.fullName,</span>
+                    <span class="comment-date">
+                        @comment.postedAt.format("dd MMM yy") 
+                    </span>
+                </div>
+                <div class="comment-content">
+                    <div class="about">Detail: </div>
+                    @Html(comment.content.replace("\n", "<br>")) 
+                </div>
+            </div>
+        }
+        
+    </div>
+    
+      <form id="commentForm" >
+	@commentForm.globalError.map { error =>
+	    <div class="error">@error.message</div>
+	}
+	<input type="hidden" name="user" value='1' >
+	@helper.textarea(commentForm("content"), '_label -> "Your comment:", '_showConstraints  -> false,'rows -> 3, 'cols -> 50	)
+	<input type="hidden" name="postId" value="@post._1.id.get">
+	<input type="hidden" name="postedAt" value="@((new java.util.Date).format("yyyy-MM-dd"))">
+    <p>
+      <a href="#/postComment/@post._1.id.get" class="btn">PostComment</a> 
+    </p>
+</form>
+}

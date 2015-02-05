@@ -1,0 +1,31 @@
+@(reviewForm: Form[Reviews_ratingsForm],business:Option[Business])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) } 
+
+@main{
+    <h1>Rate Business @business.map(_.name).getOrElse("-")</h1>
+    
+    <form id="ratingForm" >
+        
+        <fieldset>
+        
+            @inputText(reviewForm("rating"), '_label -> "Rating")
+            @textarea(reviewForm("text"), '_label -> "Text")
+			<input type="hidden" name="businessId" value='@business.map(_.id.get).getOrElse(0)' >
+			<input type="hidden" name="userId" value='1' >
+
+
+        </fieldset>
+        
+        <div class="actions">
+        <br/>
+        <br/>
+            <a href="#/saveBusiness" class="btn btn-primary btn-sm">Save Rating</a> 
+            <a href="#business/show/@business.map(_.id.get).getOrElse(0)" class="btn btn-default btn-sm">Cancel</a> 
+        </div>
+        
+        
+   </form>
+   }

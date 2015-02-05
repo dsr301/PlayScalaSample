@@ -1,0 +1,16 @@
+@font-face {
+font-family: 'LeagueGothic';
+font-weight: normal;
+src: url("Oswald-Regular.otf") format("opentype");
+}
+
+@font-face {
+font-family: 'LeagueGothicBold';
+src: url("Oswald-Bold.otf") format("opentype");
+}
+
+@font-face {
+font-family: 'LeagueGothicLight';
+src: url("Oswald-Light.otf") format("opentype");
+}
+

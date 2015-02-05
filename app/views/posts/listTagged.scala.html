@@ -1,0 +1,24 @@
+@(posts: List[Post],tag:String)
+ 
+
+<div id="newPost">
+    @posts match {
+        case List(post) => {
+            <h3>There is one post tagged '@tag'</h3>
+        }
+        case Nil => {
+            <h3>No post tagged '@tag'</h3>
+        }
+        case x => {
+            <h3>There are @posts.length posts tagged '@tag'</h3>
+        }
+    }
+    
+    <ul>
+        @posts.map { post =>
+        <li><a href="@routes.Posts.show(post.id.get)">@post.content</a> <em>@post.postedAt.format("dd/MM/yyyy")</em>
+        </li>
+        }
+    </ul>
+</div>
+

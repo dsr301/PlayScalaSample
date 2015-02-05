@@ -1,0 +1,78 @@
+@(business:Option[Business], reviews: Seq[Reviews_ratings])
+
+    <div id="actions">             
+        <a class="btn btn-success btn-sm" id="add" href="#/editBusiness/@business.map(_.id.get).getOrElse(0)">Edit business</a>
+        <a class="btn btn-success btn-sm" id="rate" href="#/uploadForm/@business.map(_.id.get).getOrElse(0)">Upload photos</a>
+        <a class="btn btn-success btn-sm" id="rate" href="/business/rate/@business.map(_.id.get).getOrElse(0)">Rate business</a>
+        
+    </div>
+<br />
+        
+                        
+                            @business.map { b=>
+                                
+                                
+                               <div class="row">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+     @img("images/"+b.name.replaceAll("\\s","")+"/"+b.id.get+"l.png", 100, 70, b.name)
+      <div class="panel-title">@b.name</div><br>
+      <div class="well well-sm">Average Rating : @b.avgRating.map(x=>{if(x.length()>4) x.substring(0,4) 
+      	else x}).getOrElse { <em>-</em> }
+      <BR>
+                                Total Ratings : @b.numRatings.map(_.toString).getOrElse { <em>-</em> }</div>
+    </div>
+    <div class="panel-body">
+      <div class="container">
+              <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="home">
+                    <div class="well well-lg">
+                  <address>
+              <strong><u>@b.name</u></strong><br>
+              <strong>Address :</strong>@b.address
+              <BR>
+              <strong>Phone:</strong> @b.phone
+            </address></br>
+            <div class="lookImages">
+            @img("images/"+b.name.replaceAll("\\s","")+"/"+b.id.get+"p1.png", 100, 70, b.name)
+            @img("images/"+b.name.replaceAll("\\s","")+"/"+b.id.get+"p2.png", 100, 70, b.name)
+            @img("images/"+b.name.replaceAll("\\s","")+"/"+b.id.get+"p3.png", 100, 70, b.name)
+            </div>
+            <br/><br/><br/>
+                User Ratings : 
+                @for(r <- reviews) {
+                  <br/>
+                  Summary : @r.text<br/>
+                  Rating :@r.rating<br/>
+                   
+                  --------------------------------
+                } 
+
+                </div>
+                </div>
+                <div class="tab-pane fade" id="profile">
+                  <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+                </div>
+                <div class="tab-pane fade" id="dropdown1">
+                  <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
+                </div>
+                <div class="tab-pane fade" id="dropdown2">
+                  <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater.</p>
+                </div>
+              </div>
+      </div>
+    </div>
+  </div>
+</div>
+								
+
+							}	
+                           
+            
+
+        <div class="actions">
+        <br/>
+            <a href="#/business" class="btn btn-default btn-sm">Go Back</a> 
+        </div>
+        
+         

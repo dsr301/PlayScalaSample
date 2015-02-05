@@ -1,0 +1,42 @@
+@(id: Long, businessForm: Form[Business], levels : Seq[(String, String)])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main {
+    
+    <h1>Edit Business</h1>
+    
+    @form(routes.Application.update(id)) {
+        
+        <fieldset>
+        
+            @inputText(businessForm("name"), '_label -> "Business name")
+            @inputText(businessForm("geoId"), '_label -> "Geo Id")
+            @inputText(businessForm("ownerId"), '_label -> "Owner Id")
+            @select(
+                businessForm("typeId"), 
+                levels, 
+                '_label -> "Type", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+            @inputText(businessForm("categoryId"), '_label -> "Category")
+            
+
+
+        
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="Save this Business" class="btn primary"> or 
+            <a href="@routes.Application.list()" class="btn">Cancel</a> 
+        </div>
+        
+    }
+    
+    @form(routes.Application.delete(id), 'class -> "topRight") {
+        <input type="submit" value="Delete this Business" class="btn danger">
+    }
+    
+}

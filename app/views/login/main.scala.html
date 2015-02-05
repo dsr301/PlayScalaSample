@@ -1,0 +1,22 @@
+@(title: String)(content: Html)
+
+@import securesocial.core.providers.utils.RoutesHelper
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="shortcut icon" type="image/png" href="@RoutesHelper.faviconPath">
+        <link rel="stylesheet" media="screen" href="@RoutesHelper.customCssPath.getOrElse("")">
+        <script src="@RoutesHelper.jqueryPath" type="text/javascript"></script>
+    </head>
+    <body>  <div class="navbar-inner mainnav-bottom">
+           <a class="brand" href="">
+                            <img src="assets/img/logo-nearlook.png">
+            </a>
+        <div class="container" style="padding-top:30px">
+            @content
+        </div>
+         </div>
+    </body>
+</html>

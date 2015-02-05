@@ -1,0 +1,59 @@
+@(currentPage: Page[Event], currentOrderBy: Int, currentFilter: String,categories:Map[String, String])(implicit flash: play.api.mvc.Flash)
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+<a class="btn btn-success btn-xs" id="add" href="#/addEvents">Add Event</a>
+@Option(currentPage.items).filterNot(_.isEmpty).map { events =>
+<table class="computers table table-striped">
+	@events.map{event=>
+      <tr>
+         <td>
+         <div class="lookImages">
+          @img("images/events/"+event.id.get+".png", 100, 70, event.name)
+          </div>
+			@event.name<br/>
+			@event.description<br/>
+			@event.venue<br/>
+			@event.from<br/>
+			@event.to<br/>
+			@event.startTime<br/>
+			@event.endTime
+			@categories.get(event.categoryId.toString)
+		
+         </td>
+      </tr>
+	}
+   </tbody>
+</table>
+<div id="pagination">
+   <ul class="pagination">
+      @currentPage.prev.map { page =>
+      <li class="prev">
+         <a href="#/evengts/nextpage/@page">&larr; Previous</a>
+      </li>
+      }.getOrElse {
+      <li class="prev disabled">
+         <a>&larr; Previous</a>
+      </li>
+      }
+      <li class="active">
+         <a>Displaying @(currentPage.offset + 1) to @(currentPage.offset + events.size) of @currentPage.total</a>
+      </li>
+      @currentPage.next.map { page =>
+      <li class="next">
+         <a href="#/events/nextpage/@page">Next &rarr;</a>
+      </li>
+      }.getOrElse {
+      <li class="next disabled">
+         <a>Next &rarr;</a>
+      </li>
+      }
+   </ul>
+</div>
+
+
+}.getOrElse {
+<div class="well">
+   <em>Nothing to display</em>
+</div>
+}

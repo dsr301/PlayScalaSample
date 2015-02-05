@@ -1,0 +1,88 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Default path will just redirect to the computer list
+GET     /                           				controllers.Application.index
+
+# business list (look at the default values for pagination parameters)
+GET     /business                  					controllers.Application.list(p:Int ?= 0, s:Int ?= 2, f ?= "",b:Int?=0,c:Int?=0,r:Int?=0)
+
+# Add computer
+GET     /business/new              					controllers.Application.create
+
+GET     /getLastRegId            					controllers.Application.getLastRegId
+
+POST    /businessSave                 				controllers.Application.save
+
+POST    /business/rate             					controllers.Application.saveRating
+GET     /business/rate/:id         					controllers.Application.rate(id:Long)
+
+GET     /uploadForm/:id         					controllers.Application.uploadForm(id:Long)
+
+# Show existing computer
+GET     /business/show/:id         					controllers.Application.show(id:Long)
+
+# Edit existing computer
+GET     /business/:id              					controllers.Application.edit(id:Long)
+
+POST    /business/:id             					controllers.Application.update(id:Long)
+POST    /uploadPhotos/:id              				controllers.Application.uploadPhotos(id:Long)
+
+# Delete a computer
+POST    /business/:id/delete       					controllers.Application.delete(id:Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file              					controllers.Assets.at(path="/public", file)
+
+#Business Page
+GET     /businessPage								controllers.Application.showBusiness
+
+#Event calls
+GET     /events                  					controllers.Events.list(p:Int ?= 0, s:Int ?= 2, f ?= "",c:Int?=0,r:Int?=0,t:Long=0)
+GET     /event/new              					controllers.Events.create
+POST    /eventSave/:cId/:rId                 		controllers.Events.addEvent(cId:Long,rId:Long)
+# POSTS related calls
+
+GET     /posts/$id<[0-9]+>                          controllers.Posts.show(id : Long)
+GET     /postsDisqus                         		controllers.Posts.disqus
+GET     /posts/:tag                          		controllers.Posts.listTagged(tag : String)
+
+POST     /posts/:id/comments                  		controllers.Posts.postComment(id : Long)
+
+POST     /addPost/:cId/:rId                  		controllers.Posts.addPost(cId:Int,rId:Int)
+
+# Home page
+GET     /posts                  					controllers.Posts.list(p:Int ?= 0, s:Int ?= 2, f ?= "",c:Int?=0,r:Int?=0)
+
+GET  /getRegion/:cityId            					controllers.Application.getRegion(cityId: Long)
+
+# Javascript routing
+GET /javascriptRoutes    							controllers.Application.javascriptRoutes
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# Login page
+GET     /login                      securesocial.controllers.LoginPage.login
+GET     /logout                     securesocial.controllers.LoginPage.logout
+
+# User Registration and password handling (only needed if you are using UsernamePasswordProvider)
+GET     /signup                     securesocial.controllers.Registration.startSignUp
+POST    /signup                     securesocial.controllers.Registration.handleStartSignUp
+GET     /signup/:token              securesocial.controllers.Registration.signUp(token)
+POST    /signup/:token              securesocial.controllers.Registration.handleSignUp(token)
+GET     /reset                      securesocial.controllers.Registration.startResetPassword
+POST    /reset                      securesocial.controllers.Registration.handleStartResetPassword
+GET     /reset/:token               securesocial.controllers.Registration.resetPassword(token)
+POST    /reset/:token               securesocial.controllers.Registration.handleResetPassword(token)
+GET     /password                   securesocial.controllers.PasswordChange.page
+POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
+
+
+# Providers entry points
+GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
+POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
+GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
+

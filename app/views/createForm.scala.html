@@ -1,0 +1,45 @@
+
+@(businessForm: Form[BusinessForm], levels: Seq[(String, String)],regions : Seq[(String,String)],owners : Seq[(String,String)],region:Seq[(String,String)])
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) } 
+<h1>Add Business</h1>
+<form enctype="multipart/form-data" id="addBForm">
+   <fieldset>
+      @inputText(businessForm("name"), '_label -> "Business name")
+      <br>
+      <select name="cityId" id="cx">
+         <option value=0 >--Select City--</option>
+         <option value=1 >Hyderabad</option>
+         <option value=2 >Bangalore</option>
+         <option value=3 >Delhi</option>
+         <option value=4 >Chennai</option>
+         <option value=5 >Mumbai</option>
+      </select>
+      <br>
+      <br>
+      <select name="regId" id="rx">
+         <option value=0 >Please choose City</option>
+      </select>
+      @select(
+      businessForm("ownerId"), 
+      owners, 
+      '_label -> "Owner Id", '_default -> "-- Choose Type--",
+      '_showConstraints -> false
+      )
+      @select(
+      businessForm("typeId"), 
+      levels, 
+      '_label -> "Type", '_default -> "-- Choose Type--",
+      '_showConstraints -> false
+      )
+      @inputText(businessForm("phone"), '_label -> "Phone")
+      @inputText(businessForm("address"), '_label -> "Address")
+      <br>
+      <input name="picture" type="file" />
+      <br>
+   </fieldset>
+   <div class="actions">
+       <input type="button" value="Create" class="btn primary"/>
+      <a href="#/business/0" class="btn">Cancel</a> 
+   </div>
+</form>

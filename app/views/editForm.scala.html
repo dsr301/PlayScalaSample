@@ -1,0 +1,56 @@
+@(id: Long, businessForm: Form[BusinessForm], levels : Seq[(String, String)],citys : Seq[(String,String)],owners : Seq[(String,String)],region:Seq[(String,String)])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+   
+    <h1>Edit Business</h1>
+    
+<form id="updateForm" >
+        
+        <fieldset>
+        
+            @inputText(businessForm("name"), '_label -> "Business name")
+
+            @select(
+                businessForm("cityId"), 
+                citys, 
+                '_label -> "City", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+            
+    
+            @select(
+                businessForm("regId"), 
+                region, 
+                '_label -> "Region", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+
+            @select(
+                businessForm("ownerId"), 
+                owners, 
+                '_label -> "Owner Id", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+            @select(
+                businessForm("typeId"), 
+                levels, 
+                '_label -> "Type", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+    
+            @inputText(businessForm("phone"), '_label -> "Phone")
+            @inputText(businessForm("address"), '_label -> "Address")
+        </fieldset>
+        
+        <div class="actions">
+        <br/>
+            <a href="#/updateBusiness/@id" class="btn btn-primary btn-sm">Save this business</a> 
+            <a href="#/business/0" class="btn btn-default btn-sm">Cancel</a> 
+        </div>
+</form>
+    
+
+   

@@ -1,0 +1,46 @@
+
+@(eventForm: Form[EventForm],categories:Seq[(String, String)])
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) } 
+<h1>Add Business</h1>
+<form enctype="multipart/form-data" id="addEForm">
+   <fieldset>
+      @inputText(eventForm("name"), '_label -> "Event name")
+      @inputText(eventForm("description"), '_label -> "Description")
+      @inputText(eventForm("venue"), '_label -> "Venue")
+      @inputDate(eventForm("from"), '_label -> "From")
+      @inputDate(eventForm("to"), '_label -> "From")
+      @inputText(eventForm("startTime"), '_label -> "Start Time")
+      @inputText(eventForm("endTime"), '_label -> "End Time")
+      <input type="hidden" name="postedAt" value="@((new java.util.Date).format("yyyy-MM-dd"))">
+      <input type="hidden" name="authorId" value="1">
+         
+         @select(
+             eventForm("categoryId"), 
+             categories, 
+             '_label -> "Category", '_default -> "-- Choose Type--",
+             '_showConstraints -> false
+         )
+      <br>
+      <select name="cityId" id="cx">
+         <option value=0 >--Select City--</option>
+         <option value=1 >Hyderabad</option>
+         <option value=2 >Bangalore</option>
+         <option value=3 >Delhi</option>
+         <option value=4 >Chennai</option>
+         <option value=5 >Mumbai</option>
+      </select>
+      <br>
+      <br>
+      <select name="regId" id="rx">
+         <option value=0 >Please choose City</option>
+      </select>
+      <br>
+      <input name="Photo" type="file" />
+      <br>
+   </fieldset>
+   <div class="actions">
+       <input type="button" value="Create" class="btn primary"/>
+      <a href="#/events" class="btn">Cancel</a> 
+   </div>
+</form>

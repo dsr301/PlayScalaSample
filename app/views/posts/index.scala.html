@@ -1,0 +1,78 @@
+@(posts:Seq[(models.Post,models.PlatformUser,Seq[models.FullComment])],commentForm: Form[Comment],categories:Map[String, String])
+     
+@import helper._
+    
+    <h2>Add a new Post</h2>
+
+    <div id="nearlook_post">
+        <div id="nearlook_error" class="error-banner hide">
+            The fields marked in red are required.
+        </div>
+        <div id="nearlook_fake">
+            <div class="input-textarea-fake input-block-level">
+                <span class="placeholder">Post a message, event or urgent alert
+                    <span class="hidden-phone">to neighbors</span>
+                </span>
+            </div>
+        </div>
+        <form id="nearlook_real" class="" autocomplete="off" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="authorId" value="1" />
+            <input type="hidden" name="postedAt" value="@((new java.util.Date).format("yyyy-MM-dd"))">
+            <div class="control-group" data-class="control-group">
+                <div class="controls" data-class="controls">
+                    <textarea id="input_message" autocomplete="off" name="content" class="input-block-level" rows="2" placeholder="Write message" style="overflow: hidden; word-wrap: break-word; resize: none; height: 130px;"></textarea>
+                    <div id="menu_category_toggle" class="input-text-fake input-block-level menu-toggle" data-toggle="collapse" data-state="closed">
+                        <select name="categoryId" id="cd">
+                        @for((k,v) <- categories) {
+                          <option value=@k >@v</option>
+                        }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="actions" id="photo_upload_actions" style="display: block;">
+                <button id="post_button" type="submit" class="btn btn-primary" style="float: right;">Post</button>
+                <button class="btn-link" id="close_button">Close</button>
+            </div>
+        </form>
+
+
+        <div id="nearlook_spinner" class="hide">
+            <div class="spinner">
+                <img src="https://d19rpgkrjeba2z.cloudfront.net/static/images/32-ajax-loader-f4f3f3.gif" alt="Loading...">
+            </div>
+        </div>
+    </div>
+    
+<!--   <form id="postForm" >
+        
+       <input type="textarea" name="content" placeholder="New Post..." /> 
+       <input type="hidden" name="authorId" value="1" />
+       	<input type="hidden" name="postedAt" value="@((new java.util.Date).format("yyyy-MM-dd"))">
+       	<select name="categoryId" id="cd" style="margin-left:20%;">
+		@for((k,v) <- categories) {
+		  <option value=@k >@v</option>
+		}
+		</select>
+       <a href="#/savePosts" class="btn">Create</a>  -->
+        
+  </form>
+    
+ 
+        @Option(posts).filterNot(_.isEmpty).map { posts =>
+ 
+            <div class="older-posts">    
+                <h3>All posts <span class="from"></span></h3>
+ 
+                @posts.map { post =>
+                    @display(post, mode = "full",commentForm)
+                }
+ 
+            </div> 
+        }.getOrElse {
+ 
+        <div class="empty">
+            There is currently nothing to read here.
+        </div>
+ 
+    }

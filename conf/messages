@@ -1,0 +1,4 @@
+# Messages
+
+#business.list.title={0,choice,0#No businesses|1#One business|1<{0,number,integer} businesses} found in {2},{3} for {4}
+business.list.title={0} {3} found in {2} of {1}

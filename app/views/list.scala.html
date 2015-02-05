@@ -1,0 +1,84 @@
+@(currentPage: Page[(Business, Option[Business_Level],Option[Geo],Option[Users],Option[Region])], currentOrderBy: Int, currentFilter: String,businessId:Int,names:(String,String,String),msg:String)(implicit flash: play.api.mvc.Flash)
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage: Int, newOrderBy: Option[Int] = None) = @{
+routes.Application.list(newPage, newOrderBy.map { orderBy =>
+if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
+}.getOrElse(currentOrderBy), currentFilter,b=businessId)
+}
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(orderBy: Int, title: String) = {
+<th class="col@orderBy header @if(scala.math.abs(currentOrderBy) == orderBy) @{if(currentOrderBy < 0) "headerSortDown" else "headerSortUp"}">
+<a href="@link(0, Some(orderBy))">@title</a>
+</th>
+}
+
+@if(msg.length>0) {
+  <h1>@msg</h1>
+} else{
+<h4>@Messages("business.list.title", currentPage.total,names._1,names._2,names._3)</h4>
+}
+
+<a class="btn btn-success btn-xs" id="add" href="#/addBusiness">Add a new business</a>
+<br />
+@Option(currentPage.items).filterNot(_.isEmpty).map { businesses =>
+<table class="computers table table-striped">
+   <tbody>
+      @businesses.map { 
+      case (business, company,geo,users,region) => {
+      <tr>
+         <td>
+         @img("images/"+business.name.replaceAll("\\s","")+"/"+business.id.get+"l.png", 100, 70, business.name)
+            <a href="#@routes.Application.show(business.id.get)">@business.name</a><br/>
+            Average Rating : @business.avgRating.map(x=>if(x.length()>4) x.substring(0,4) else x).getOrElse { <em>-</em> }<br/>
+            Total Ratings : @business.numRatings.map(_.toString).getOrElse { <em>-</em> }<br/>
+            @region.map(_.name).getOrElse { <em>-</em> }<br/>
+            <!--@users.map(_.fullname).getOrElse { <em>-</em> }<br/>
+               @company.map(_.name).getOrElse { <em>-</em> }<br/>-->
+            <div class="icon-phone-sign icon-1"></div>
+            &nbsp;@business.phone</br>
+            @business.address</br>
+            <div class="lookImages">
+            @img("images/"+business.name.replaceAll("\\s","")+"/"+business.id.get+"p1.png", 100, 70, business.name)
+            @img("images/"+business.name.replaceAll("\\s","")+"/"+business.id.get+"p2.png", 100, 70, business.name)
+            @img("images/"+business.name.replaceAll("\\s","")+"/"+business.id.get+"p3.png", 100, 70, business.name)
+            </div>
+         </td>
+      </tr>
+      }
+      }
+   </tbody>
+</table>
+<div id="pagination">
+   <ul class="pagination">
+      @currentPage.prev.map { page =>
+      <li class="prev">
+         <a href="#/business/@businessId/nextpage/@page">&larr; Previous</a>
+      </li>
+      }.getOrElse {
+      <li class="prev disabled">
+         <a>&larr; Previous</a>
+      </li>
+      }
+      <li class="active">
+         <a>Displaying @(currentPage.offset + 1) to @(currentPage.offset + businesses.size) of @currentPage.total</a>
+      </li>
+      @currentPage.next.map { page =>
+      <li class="next">
+         <a href="#/business/@businessId/nextpage/@page">Next &rarr;</a>
+      </li>
+      }.getOrElse {
+      <li class="next disabled">
+         <a>Next &rarr;</a>
+      </li>
+      }
+   </ul>
+</div>
+}.getOrElse {
+<div class="well">
+   <em>Nothing to display</em>
+</div>
+}

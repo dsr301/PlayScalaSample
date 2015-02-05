@@ -1,0 +1,56 @@
+@(businessForm: Form[Business], levels: Seq[(String, String)])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) } 
+
+@main {
+    
+    <h1>Add a computer</h1>
+    
+    @form(routes.Application.save()) {
+        
+        <fieldset>
+        
+            @inputText(businessForm("name"), '_label -> "Business name")
+    
+            @select(
+                businessForm("geoId"), 
+                regions, 
+                '_label -> "Geo Id", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+
+            @select(
+                businessForm("ownerId"), 
+                owners, 
+                '_label -> "Owner Id", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+            @select(
+                businessForm("typeId"), 
+                levels, 
+                '_label -> "Type", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+            @select(
+                businessForm("categoryId"), 
+                category, 
+                '_label -> "Category", '_default -> "-- Choose Type--",
+                '_showConstraints -> false
+            )
+    
+            @inputText(businessForm("phone"), '_label -> "Phone")
+            @inputText(businessForm("address"), '_label -> "Address")
+            
+
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="Create this computer" class="btn primary"> or 
+            <a href="@routes.Application.list()" class="btn">Cancel</a> 
+        </div>
+        
+    }
+    
+}
